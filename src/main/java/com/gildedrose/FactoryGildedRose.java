@@ -9,7 +9,7 @@ class FactoryGildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            FactoryItem factoryItem = Factory.getInstance(item);
+            FactoryItem factoryItem = SimpleFactory.getInstance(item);
             factoryItem.itemQuality();
             factoryItem.itemSellIn();
             factoryItem.itemSellInLessThanZero();

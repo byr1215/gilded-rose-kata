@@ -209,7 +209,7 @@ class ConjuredFactoryItem implements FactoryItem {
     }
 }
 
-class Factory {
+class SimpleFactory {
     public static FactoryItem getInstance(Item item) {
         switch (ManagementItem.findByManagementItem(item.name)) {
             case AGED_BRIE: return new AgedBrieFactoryItem(item);

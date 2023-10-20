@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("테스트")
-class FactoryGildedRoseTest {
+class SimpleFactoryGildedRoseTest {
     Item[] items = new Item[] {
         new Item("+5 Dexterity Vest", 10, 20), //
         new Item("Aged Brie", 2, 0), //
