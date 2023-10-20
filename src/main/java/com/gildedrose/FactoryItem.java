@@ -23,7 +23,6 @@ class BasicFactoryItem implements FactoryItem {
     private static final int SELL_IN_ZERO   = 0;        // 판매 마감일
     private static final int SELL_IN_DAY    = -1;       // 남은 기간 감소
     private static final int QUALITY_MIN    = 0;        // 최소 퀄리티
-    private static final int QUALITY_MAX    = 50;       // 최대 퀄리티
     private static final int QUALITY_TIMES  = -1;       // 퀄리티 배율
 
     private final Item item;
@@ -34,22 +33,24 @@ class BasicFactoryItem implements FactoryItem {
 
     @Override
     public void itemQuality() {
-        if (this.item.quality > QUALITY_MIN) {
-            this.item.quality = this.item.quality + QUALITY_TIMES;
-        }
+        qualityDecrease();
     }
 
     @Override
     public void itemSellIn() {
-        this.item.sellIn = this.item.sellIn + SELL_IN_DAY;
+        this.item.sellIn += SELL_IN_DAY;
     }
 
     @Override
     public void itemSellInLessThanZero() {
         if (this.item.sellIn < SELL_IN_ZERO) {
-            if (item.quality > QUALITY_MIN) {
-                this.item.quality = this.item.quality + QUALITY_TIMES;
-            }
+            qualityDecrease();
+        }
+    }
+
+    private void qualityDecrease() {
+        if (this.item.quality > QUALITY_MIN) {
+            this.item.quality += QUALITY_TIMES;
         }
     }
 }
@@ -58,8 +59,7 @@ class BasicFactoryItem implements FactoryItem {
 class AgedBrieFactoryItem implements FactoryItem {
 
     private static final int SELL_IN_ZERO   = 0;        // 판매 마감일
-    private static final int SELL_IN_DAY    = -1;        // 남은 기간 감소
-    private static final int QUALITY_MIN    = 0;        // 최소 퀄리티
+    private static final int SELL_IN_DAY    = -1;       // 남은 기간 감소
     private static final int QUALITY_MAX    = 50;       // 최대 퀄리티
     private static final int QUALITY_TIMES  = 1;        // 퀄리티 배율
 
@@ -71,22 +71,24 @@ class AgedBrieFactoryItem implements FactoryItem {
 
     @Override
     public void itemQuality() {
-        if (this.item.quality < QUALITY_MAX) {
-            this.item.quality = this.item.quality + QUALITY_TIMES;
-        }
+        qualityIncrease();
     }
 
     @Override
     public void itemSellIn() {
-        this.item.sellIn = this.item.sellIn + SELL_IN_DAY;
+        this.item.sellIn += SELL_IN_DAY;
     }
 
     @Override
     public void itemSellInLessThanZero() {
         if (this.item.sellIn < SELL_IN_ZERO) {
-            if (this.item.quality < QUALITY_MAX) {
-                this.item.quality = this.item.quality + QUALITY_TIMES;
-            }
+            qualityIncrease();
+        }
+    }
+
+    private void qualityIncrease() {
+        if (this.item.quality < QUALITY_MAX) {
+            this.item.quality += QUALITY_TIMES;
         }
     }
 }
@@ -109,26 +111,20 @@ class BackstagePassesFactoryItem implements FactoryItem {
 
     @Override
     public void itemQuality() {
-        if (this.item.quality < QUALITY_MAX) {
-            this.item.quality = this.item.quality + QUALITY_TIMES;
+        qualityIncrease();
 
-            if (this.item.sellIn < SELL_IN_2) {
-                if (this.item.quality < QUALITY_MAX) {
-                    this.item.quality = this.item.quality + QUALITY_TIMES;
-                }
-            }
+        if (this.item.sellIn < SELL_IN_2) {
+            qualityIncrease();
+        }
 
-            if (this.item.sellIn < SELL_IN_3) {
-                if (this.item.quality < QUALITY_MAX) {
-                    this.item.quality = this.item.quality + QUALITY_TIMES;
-                }
-            }
+        if (this.item.sellIn < SELL_IN_3) {
+            qualityIncrease();
         }
     }
 
     @Override
     public void itemSellIn() {
-        this.item.sellIn = this.item.sellIn + SELL_IN_DAY;
+        this.item.sellIn += SELL_IN_DAY;
     }
 
     @Override
@@ -137,15 +133,15 @@ class BackstagePassesFactoryItem implements FactoryItem {
             this.item.quality = QUALITY_MIN;
         }
     }
+
+    private void qualityIncrease() {
+        if (this.item.quality < QUALITY_MAX) {
+            this.item.quality += QUALITY_TIMES;
+        }
+    }
 }
 
 class SulfurasFactoryItem implements FactoryItem {
-
-    private static final int SELL_IN_ZERO   = 0;        // 판매 마감일
-    private static final int SELL_IN_DAY    = -1;        // 남은 기간 감소
-    private static final int QUALITY_MIN    = 0;        // 최소 퀄리티
-    private static final int QUALITY_MAX    = 50;       // 최대 퀄리티
-    private static final int QUALITY_TIMES  = 0;        // 퀄리티 배율
 
     private final Item item;
 
@@ -174,7 +170,6 @@ class ConjuredFactoryItem implements FactoryItem {
     private static final int SELL_IN_ZERO   = 0;        // 판매 마감일
     private static final int SELL_IN_DAY    = -1;        // 남은 기간 감소
     private static final int QUALITY_MIN    = 0;        // 최소 퀄리티
-    private static final int QUALITY_MAX    = 50;       // 최대 퀄리티
     private static final int QUALITY_TIMES  = -2;        // 퀄리티 배율
 
     private final Item item;
@@ -185,28 +180,31 @@ class ConjuredFactoryItem implements FactoryItem {
 
     @Override
     public void itemQuality() {
-        if (this.item.quality > QUALITY_MIN) {
-            this.item.quality = this.item.quality + QUALITY_TIMES;
-        }
-        if (this.item.quality < QUALITY_MIN) {
-            this.item.quality = QUALITY_MIN;
-        }
+        qualityDecrease();
     }
 
     @Override
     public void itemSellIn() {
-        this.item.sellIn = this.item.sellIn + SELL_IN_DAY;
+        this.item.sellIn += SELL_IN_DAY;
     }
 
     @Override
     public void itemSellInLessThanZero() {
         if (this.item.sellIn < SELL_IN_ZERO) {
-            if (this.item.quality > QUALITY_MAX) {
-                this.item.quality = this.item.quality + QUALITY_TIMES;
-            }
-            if (this.item.quality < QUALITY_MIN) {
-                this.item.quality = QUALITY_MIN;
-            }
+            qualityDecrease();
+            qualityZero();
+        }
+    }
+
+    private void qualityDecrease() {
+        if (this.item.quality > QUALITY_MIN) {
+            this.item.quality += QUALITY_TIMES;
+        }
+    }
+
+    private void qualityZero() {
+        if (this.item.quality < QUALITY_MIN) {
+            this.item.quality = QUALITY_MIN;
         }
     }
 }
@@ -222,4 +220,3 @@ class Factory {
         }
     }
 }
-

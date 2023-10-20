@@ -34,7 +34,4 @@ public enum ManagementItem {
 
         return false;
     }
-
-
-
 }
